@@ -54,18 +54,18 @@ xtabs(~ Treatment + Improved, data = Arthritis) %>%
 ```
 
 - How many patients were enrolled in the clinical trial?
-
+  84 people are enrolled in the trial
 - What is the probability a randomly selected patient received the placebo?
-
+  P(have placebo) = 43/84, approx 52%. 
 - What is the probability a randomly selected patient received the placebo
   and had a marked improvement?
-  
+  P(have placebo & marked improvement) = 7/84
 - What is the probability a randomly selected patient received the placebo
   and the treatment?
-  
+  No possible to have disjoint probabilty = 0
 - What is the probability a randomly selected patient had some improvement or
   was on the treatment?
-
+  P (improvement | receive treatments) = 14+41-7/84
 ## Using computer simulations to calculate probabilities
 
 #### Example
@@ -75,12 +75,14 @@ a vector called `marbles`.
 
 ```{r marbles}
 marbles <- c("red", "red", "white", "red", "blue", "blue", "red", "blue")
+marbles
+# c command to combine things together to a vector
 ```
 
 Suppose we draw a single marble from our imaginary box, where all the marbles
 are equally likely to be selected. What is the probability the marble is blue? 
 How about white?
-
+  Probability = 3/8
 We can simulate this "drawing" with the `sample()` function.
 
 ```{r sample}
@@ -97,7 +99,7 @@ of eight marbles each time. This way we can easily simulate our marble-drawing
 experiment.
 
 ```{r simulate_draws}
-draw_results <- sample(marbles, size = 10000, replace = TRUE)
+draw_results <- sample(marbles, size = 100000, replace = TRUE) # replace = FALSE is default
 ```
 
 ```{r summarize_draws}
@@ -160,19 +162,28 @@ difference between dice roll 1 and dice roll 2 is equal to 4.
 
 Perform a simulation to compute this empirical probability.
 
-Write down your guess to the answer before you calculate it.
-
 ```{r simulate_rolls}
-
+dice <- c(1, 2, 3, 4, 5, 6)
+two_roll_results <- tibble(
+  roll_1 = sample (dice, size = 10000, replace = TRUE),
+  roll_2 = sample (dice, size = 10000, replace = TRUE)
+)
 ```
 
 ```{r identify_events}
-
+two_roll_results <- two_roll_results %>%
+  mutate (event1 = roll_1 ^2 == roll_2) %>%
+  mutate (event2 = abs(roll_1 - roll_2)==4)
+two_roll_results
 ```
-
+  
 ```{r summarize_rolls}
-
+two_roll_results %>%
+  summarize(prop_event1 = mean(event1),
+            prop_event2 = mean(event2))
 ```
+
+=> event 2 is more likely than event1
 
 ## Additional Resources-please look at before Weds.
 
