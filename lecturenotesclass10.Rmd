@@ -2,8 +2,10 @@
 title: "Introduction to probability"
 author: "Archie Ju"
 date: "2.23.2021"
-output: html_document
-editor_options: 
+output:
+  pdf_document: default
+  html_document: default
+editor_options:
   chunk_output_type: console
 ---
 
@@ -183,7 +185,7 @@ two_roll_results %>%
             prop_event2 = mean(event2))
 ```
 
-=> event 2 is more likely than event1
+=> event 2 is more likely than event1!
 
 ## Additional Resources-please look at before Weds.
 
